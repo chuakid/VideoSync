@@ -1,0 +1,8 @@
+body {
+    min-height: 100vh;
+}
+
+main {
+    width: 70%;
+    height: 100%;
+}

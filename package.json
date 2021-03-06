@@ -1,0 +1,21 @@
+{
+  "name": "Video-Sync-Vite",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "plyr": "^3.6.4",
+    "socket.io": "^3.1.2",
+    "socket.io-client": "^3.1.2",
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.1.4",
+    "@vue/compiler-sfc": "^3.0.5",
+    "vite": "^2.0.0-beta.65"
+  }
+}
