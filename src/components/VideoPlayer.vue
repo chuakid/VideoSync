@@ -3,7 +3,7 @@
     <header class="card-header">
       <p class="card-header-title">Room Participants</p>
       </header>
-    <div class="card-content">
+    <div class="card-content tags">
       <div v-for="person in namelist" :key="person" class="person tag is-info">
         {{ person }}
       </div>
