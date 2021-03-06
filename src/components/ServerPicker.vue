@@ -1,25 +1,27 @@
 <template>
-  <div id="join" class="field">
-    <p class="control field is-fullwidth">
-      <input class="input" placeholder="Name" id="name" v-model="username" />
-    </p>
-    <p class="control field is-fullwidth select">
-      <select class="input" id="roomSelect" v-model="roomId">
-        <option disabled>Room</option>
-        <option v-for="room in rooms" :key="room">
-          {{ room }}
-        </option>
-      </select>
-    </p>
-    <p class="control">
-      <button
-        class="button is-outlined is-primary is-fullwidth"
-        @click="joinRoom"
-        id="joinRoom"
-      >
-        Join
-      </button>
-    </p>
+  <div class="level">
+    <div id="join" class="field">
+      <p class="control field is-fullwidth">
+        <input class="input" placeholder="Name" id="name" v-model="username" />
+      </p>
+      <p class="control field is-fullwidth select">
+        <select class="input" id="roomSelect" v-model="roomId">
+          <option disabled>Room</option>
+          <option v-for="room in rooms" :key="room">
+            {{ room }}
+          </option>
+        </select>
+      </p>
+      <p class="control">
+        <button
+          class="button is-outlined is-primary is-fullwidth"
+          @click="joinRoom"
+          id="joinRoom"
+        >
+          Join
+        </button>
+      </p>
+    </div>
   </div>
 </template>
 

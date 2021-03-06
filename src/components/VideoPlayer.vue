@@ -1,8 +1,12 @@
 <template>
-  <div id="peopleList">
-    <h2>Room Participants</h2>
-    <div v-for="person in namelist" :key="person" class="person">
-      {{ person }}
+  <div id="peopleList" class="card">
+    <header class="card-header">
+      <p class="card-header-title">Room Participants</p>
+      </header>
+    <div class="card-content">
+      <div v-for="person in namelist" :key="person" class="person tag is-info">
+        {{ person }}
+      </div>
     </div>
   </div>
 
@@ -14,21 +18,22 @@
         allow="autoplay"
       ></iframe>
     </div>
-    <input
+    <input class="input is-info"
       id="youtubelink"
       v-on:keyup.enter="userChangedVideo"
       v-model="youtubeLinkInput"
     />
-    <button id="change" @click="userChangedVideo">Change Video</button>
+    <button class="button" id="change" @click="userChangedVideo">Change Video</button>
   </div>
 </template>
 
 <script>
 import Plyr from "plyr";
 import socket from "../socket.js";
+import getVideoId  from "get-video-id";
 let emitSeek = true;
 let emitPause = true;
-
+let player;
 export default {
   data() {
     return {
@@ -45,7 +50,7 @@ export default {
       if (!id) {
         id =
           this.youtubeLinkInput != ""
-            ? youtubeLinkInput.split("?v=")[1]
+            ? getVideoId(this.youtubeLinkInput).id
             : "dQw4w9WgXcQ";
       }
 
@@ -64,7 +69,7 @@ export default {
     },
   },
   mounted() {
-    const player = new Plyr("#player");
+    player = new Plyr("#player");
 
     socket.on("clientJoined", (namelist) => {
       this.namelist = namelist;
@@ -104,27 +109,11 @@ export default {
 </script>
 
 <style scoped>
-#peopleList {
-  position: absolute;
-  top: 10px;
-  left: 20px;
-  background: rgb(0, 0, 54);
-}
-#youtubelink {
-  background-color: #7c7c7c;
-  border: none;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 #viewer {
   min-width: 50vw;
 }
-
-.person {
-  background: #313131;
-  border-radius: 10px;
-  text-align: center;
+#peopleList {
+  position: absolute;
+  top: 50px;
 }
 </style>
