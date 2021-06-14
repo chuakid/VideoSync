@@ -82,8 +82,14 @@ export default {
               import.meta.env.VITE_API_KEY
           )
           .then((response) => {
-            this.videoTitle = response.data.items[0].snippet.title;
-            this.channelTitle = response.data.items[0].snippet.channelTitle;
+            console.log(response);
+            if (!response.data.pageInfo.resultsPerPage) {
+              this.imgSrc = "";
+              this.showPreview = false;
+            } else {
+              this.videoTitle = response.data.items[0].snippet.title;
+              this.channelTitle = response.data.items[0].snippet.channelTitle;
+            }
           });
       } else {
         this.imgSrc = "";
@@ -167,7 +173,7 @@ export default {
   bottom: 100%;
   width: auto;
 }
-#videoPreview:hover{
+#videoPreview:hover {
   cursor: pointer;
 }
 #videoPreview:hover h2 {
