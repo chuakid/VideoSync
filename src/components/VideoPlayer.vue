@@ -82,7 +82,6 @@ export default {
               import.meta.env.VITE_API_KEY
           )
           .then((response) => {
-            console.log(response);
             if (!response.data.pageInfo.resultsPerPage) {
               this.imgSrc = "";
               this.showPreview = false;
