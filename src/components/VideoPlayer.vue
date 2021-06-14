@@ -21,7 +21,7 @@
           placeholder="Change video"
           class="input is-info"
           id="youtubelink"
-          v-on:keyup="userChangedVideoLink"
+          @input="userChangedVideoLink"
           v-on:keyup.enter="userChangedVideo"
           v-model="youtubeLinkInput"
         />
