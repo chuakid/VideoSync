@@ -11,4 +11,7 @@ export default {
       "socket.io-client": "socket.io-client/dist/socket.io.js",
     },
   },
+  server: {
+    port:3001
+  }
 }

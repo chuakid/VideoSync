@@ -1,6 +1,5 @@
 import { io } from "socket.io-client";
-import { host } from "./variables.js"
-let socket = io(host)
+let socket = io(import.meta.env.VITE_HOST)
 
 socket.on("roomJoinStatus", (status) => {
     console.log("Joined room");

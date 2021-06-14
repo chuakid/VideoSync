@@ -1,36 +1,59 @@
 <template>
-  <div id="peopleList" class="card">
-    <header class="card-header">
+  <div class="columns is-gapless container mw100">
+    <div id="peopleList" class="is-1 has-background-dark">
       <p class="card-header-title">Room Participants</p>
-      </header>
-    <div class="card-content tags">
-      <div v-for="person in namelist" :key="person" class="person tag is-info">
-        {{ person }}
+      <div>
+        <div v-for="person in namelist" :key="person" class="person">
+          {{ person }}
+        </div>
+      </div>
+    </div>
+    <div id="viewer" class="column">
+      <div class="plyr__video-embed" id="player">
+        <iframe
+          src="https://www.youtube.com/embed/bTqVqk7FSmY?"
+          allowtransparency
+          allow="autoplay"
+        ></iframe>
+      </div>
+      <div class="is-relative">
+        <input
+          placeholder="Change video"
+          class="input is-info"
+          id="youtubelink"
+          v-on:keyup="userChangedVideoLink"
+          v-on:keyup.enter="userChangedVideo"
+          v-model="youtubeLinkInput"
+        />
+        <div
+          style="margin: 0; height: 100px"
+          id="videoPreview"
+          class="is-flex is-clickable has-background-dark"
+          v-if="showPreview"
+          v-on:click="changeVideo()"
+        >
+          <img :src="imgSrc" />
+          <div class="column">
+            <h2 class="is-size-5 has-text-info">
+              {{ channelTitle }}
+            </h2>
+            <p class="">{{ videoTitle }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div id="viewer">
-    <div class="plyr__video-embed" id="player">
-      <iframe
-        src="https://www.youtube.com/embed/bTqVqk7FSmY?"
-        allowtransparency
-        allow="autoplay"
-      ></iframe>
-    </div>
-    <input class="input is-info"
-      id="youtubelink"
-      v-on:keyup.enter="userChangedVideo"
-      v-model="youtubeLinkInput"
-    />
+  <!-- </div>
     <button class="button" id="change" @click="userChangedVideo">Change Video</button>
-  </div>
+  </div> -->
 </template>
 
 <script>
 import Plyr from "plyr";
+import axios from "axios";
 import socket from "../socket.js";
-import getVideoId  from "get-video-id";
+import getVideoId from "get-video-id";
 let emitSeek = true;
 let emitPause = true;
 let player;
@@ -39,14 +62,40 @@ export default {
     return {
       youtubeLinkInput: "",
       namelist: [],
+      imgSrc: "",
+      videoTitle: "",
+      showPreview: false,
+      channelTitle: "",
     };
   },
   methods: {
+    userChangedVideoLink() {
+      let id = getVideoId(this.youtubeLinkInput).id;
+      if (id) {
+        this.showPreview = true;
+        this.imgSrc = "https://img.youtube.com/vi/" + id + "/hqdefault.jpg";
+        axios
+          .get(
+            "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" +
+              id +
+              "&key=" +
+              import.meta.env.VITE_API_KEY
+          )
+          .then((response) => {
+            this.videoTitle = response.data.items[0].snippet.title;
+            this.channelTitle = response.data.items[0].snippet.channelTitle;
+          });
+      } else {
+        this.imgSrc = "";
+        this.showPreview = false;
+      }
+    },
     userChangedVideo() {
       let id = this.changeVideo();
       socket.emit("linkChange", id);
     },
     changeVideo(id = null) {
+      this.showPreview = false;
       if (!id) {
         id =
           this.youtubeLinkInput != ""
@@ -109,11 +158,27 @@ export default {
 </script>
 
 <style scoped>
-#viewer {
-  min-width: 50vw;
+.person {
+  display: block;
+  margin: 10px;
 }
-#peopleList {
+#videoPreview {
   position: absolute;
-  top: 50px;
+  bottom: 100%;
+  width: auto;
+}
+#videoPreview:hover{
+  cursor: pointer;
+}
+#videoPreview:hover h2 {
+  color: white !important;
+}
+
+.input {
+  height: 30px;
+}
+
+.mw100 {
+  min-width: 100%;
 }
 </style>

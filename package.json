@@ -8,6 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "express": "^4.17.1",
     "get-video-id": "^3.2.0",
     "plyr": "^3.6.8",
