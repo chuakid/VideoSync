@@ -74,7 +74,6 @@ export default {
     userChangedVideoLink() {
       let id = getVideoId(this.youtubeLinkInput).id;
       if (id) {
-        this.showPreview = true;
         this.imgSrc = "https://img.youtube.com/vi/" + id + "/hqdefault.jpg";
         axios
           .get(
@@ -88,6 +87,7 @@ export default {
               this.imgSrc = "";
               this.showPreview = false;
             } else {
+              this.showPreview = true;
               this.videoTitle = response.data.items[0].snippet.title;
               this.channelTitle = response.data.items[0].snippet.channelTitle;
             }
