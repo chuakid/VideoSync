@@ -30,7 +30,7 @@
           id="videoPreview"
           class="is-flex is-clickable has-background-dark"
           v-if="showPreview"
-          v-on:click="changeVideo()"
+          v-on:click="userChangedVideo()"
         >
           <img :src="imgSrc" />
           <div class="column">
