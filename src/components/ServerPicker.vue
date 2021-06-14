@@ -44,6 +44,11 @@ export default {
   props: {
     rooms: Array,
   },
+  mounted(){
+    socket.on("roomJoinStatus", (link)=>{
+      this.$emit("joined", link);
+    })
+  },
   methods: {
     joinRoom() {
       if (this.roomId != "Room") {
@@ -51,7 +56,6 @@ export default {
           roomId: this.roomId,
           name: this.username,
         });
-        this.$emit("joined");
       }
     },
   },

@@ -29,12 +29,15 @@ io.on('connection', (client) => {
         client.roomId = info.roomId
 
         client.join(info.roomId)
-        console.log(client.id + " joined " + client.roomId)
-        client.emit("roomJoinStatus")
+        console.log(info.name + " joined " + client.roomId)
+        if (roomInfo[client.roomId]['link']) { // if link already changed 
+            client.emit("roomJoinStatus", roomInfo[client.roomId]["link"]) //change the new client's link 
+        }
+        else {
+            client.emit("roomJoinStatus", "") //change the new client's link 
+        }
 
         roomInfo[client.roomId]["people"][client.id] = client.name //add client to client list
-        if (roomInfo[client.roomId]['link']) // if link already changed 
-            client.emit("linkChanged", roomInfo[client.roomId]["link"]) //change the new client's link
         io.in(client.roomId).emit("clientJoined", Object.values(roomInfo[client.roomId]["people"])) //let everyone know the new client list
 
         client.on("disconnect", () => {

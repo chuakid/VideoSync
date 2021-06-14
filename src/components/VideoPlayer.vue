@@ -11,9 +11,8 @@
     <div id="viewer" class="column">
       <div class="plyr__video-embed" id="player">
         <iframe
-          src="https://www.youtube.com/embed/bTqVqk7FSmY?"
+          v-bind:src="'https://www.youtube.com/watch?v=' + link"
           allowtransparency
-          allow="autoplay"
         ></iframe>
       </div>
       <div class="is-relative">
@@ -67,6 +66,9 @@ export default {
       showPreview: false,
       channelTitle: "",
     };
+  },
+  props: {
+    link: String,
   },
   methods: {
     userChangedVideoLink() {
@@ -123,8 +125,10 @@ export default {
     },
   },
   mounted() {
-    player = new Plyr("#player");
-
+    player = new Plyr("#player", {
+      settings: ["captions", "quality", "speed", "loop"],
+      
+    });
     socket.on("clientJoined", (namelist) => {
       this.namelist = namelist;
     });

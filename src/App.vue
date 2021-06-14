@@ -1,6 +1,6 @@
 <template>
-  <server-picker v-if="!connected" :rooms="rooms" @joined="connected=true"/>
-  <video-player v-if="connected"/>
+  <server-picker v-if="!connected" :rooms="rooms" @joined="joined"/>
+  <video-player :link="link" v-if="connected"/>
 </template>
 
 <script>
@@ -19,7 +19,14 @@ export default {
     return {
       rooms: [],
       connected: false,
+      link: ""
     };
+  },
+  methods: {
+    joined(link){
+      this.connected=true;
+      this.link = link;
+    }
   },
   mounted() {
     socket.on("rooms", (roomsEmitted) => {
