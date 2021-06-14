@@ -5,3 +5,7 @@ body {
 #app {
     min-height:100vh;
 }
+
+html {
+    overflow: hidden;
+}
