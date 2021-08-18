@@ -9,7 +9,6 @@
 import ServerPicker from "./components/ServerPicker.vue";
 import VideoPlayer from "./components/VideoPlayer.vue";
 import socket from "./socket.js";
-import "plyr/dist/plyr.css";
 
 export default {
   components: {
