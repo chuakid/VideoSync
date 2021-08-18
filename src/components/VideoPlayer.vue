@@ -3,7 +3,7 @@
     <div class="text-white max-w-28 p-2">
       <h2 class="text-lg">Users</h2>
       <ul>
-        <li v-for="person in namelist" :key="person" class="inline-block rounded px-1 break-all bg-yellow-800">
+        <li v-for="person in namelist" :key="person" class="inline-block mr-2 md:mr-0 md:block md:mt-2 rounded px-1 break-all bg-yellow-800">
           {{ person }}
         </li>
       </ul>
