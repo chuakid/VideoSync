@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row min-h-screen">
+  <div class="flex flex-col md:flex-row min-h-screen max-h-screen">
     <div class="text-white max-w-28 p-2">
       <h2 class="text-lg">Users</h2>
       <ul>

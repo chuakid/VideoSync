@@ -53,7 +53,5 @@ export default {
 </script>
 
 <style>
-.picker {
-  min-height: 100vh;
-}
+
 </style>
