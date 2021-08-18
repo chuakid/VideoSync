@@ -1,42 +1,38 @@
 <template>
-  <div class="columns is-gapless container mw100">
-    <div id="peopleList" class="is-1 has-background-dark">
-      <p class="card-header-title">Room Participants</p>
-      <div>
-        <div v-for="person in namelist" :key="person" class="person">
+  <div class="flex flex-col md:flex-row min-h-screen">
+    <div class="text-white max-w-28 p-2">
+      <h2 class="text-lg">Users</h2>
+      <ul>
+        <li v-for="person in namelist" :key="person" class="inline-block rounded px-1 break-all bg-yellow-800">
           {{ person }}
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
-    <div id="viewer" class="column">
+    <div id="viewer" class="flex-1 flex flex-col">
       <div class="plyr__video-embed" id="player">
-        <iframe
-          v-bind:src="'https://www.youtube.com/watch?v=' + link"
-          allowtransparency
-        ></iframe>
+        <iframe v-bind:src="'https://www.youtube.com/watch?v=' + link" allowtransparency></iframe>
       </div>
-      <div class="is-relative">
+
+      <div class="relative">
         <input
           placeholder="Change video"
-          class="input is-info"
+          class="w-full p-1"
           id="youtubelink"
           @input="userChangedVideoLink"
-          v-on:keyup.enter="userChangedVideo"
+          @keyup.enter="userChangedVideo"
           v-model="youtubeLinkInput"
         />
         <div
-          style="margin: 0; height: 100px"
-          id="videoPreview"
-          class="is-flex is-clickable has-background-dark"
+          class="absolute flex bg-gray-800 h-24 transition bottom-full hover:bg-gray-700 cursor-pointer"
           v-if="showPreview"
           v-on:click="userChangedVideo()"
         >
-          <img :src="imgSrc" />
-          <div class="column">
-            <h2 class="is-size-5 has-text-info">
-              {{ channelTitle }}
+          <img class="inline-block" :src="imgSrc" />
+          <div class="p-2">
+            <h2 class="text-blue-500 text-xl">
+              {{ videoTitle }}
             </h2>
-            <p class="">{{ videoTitle }}</p>
+            <p class="text-white">Channel: {{ channelTitle }}</p>
           </div>
         </div>
       </div>
@@ -73,29 +69,27 @@ export default {
   methods: {
     userChangedVideoLink() {
       let id = getVideoId(this.youtubeLinkInput).id;
-      if (id) {
-        this.imgSrc = "https://img.youtube.com/vi/" + id + "/hqdefault.jpg";
-        axios
-          .get(
-            "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" +
-              id +
-              "&key=" +
-              import.meta.env.VITE_API_KEY
-          )
-          .then((response) => {
-            if (!response.data.pageInfo.resultsPerPage) {
-              this.imgSrc = "";
-              this.showPreview = false;
-            } else {
-              this.showPreview = true;
-              this.videoTitle = response.data.items[0].snippet.title;
-              this.channelTitle = response.data.items[0].snippet.channelTitle;
-            }
-          });
-      } else {
+      if (!id) {
         this.imgSrc = "";
         this.showPreview = false;
+        return;
       }
+
+      this.imgSrc = "https://img.youtube.com/vi/" + id + "/hqdefault.jpg";
+      axios
+        .get(
+          "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + id + "&key=" + import.meta.env.VITE_API_KEY
+        )
+        .then((response) => {
+          if (!response.data.pageInfo.resultsPerPage) {
+            this.imgSrc = "";
+            this.showPreview = false;
+          } else {
+            this.showPreview = true;
+            this.videoTitle = response.data.items[0].snippet.title;
+            this.channelTitle = response.data.items[0].snippet.channelTitle;
+          }
+        });
     },
     userChangedVideo() {
       let id = this.changeVideo();
@@ -104,10 +98,7 @@ export default {
     changeVideo(id = null) {
       this.showPreview = false;
       if (!id) {
-        id =
-          this.youtubeLinkInput != ""
-            ? getVideoId(this.youtubeLinkInput).id
-            : "dQw4w9WgXcQ";
+        id = this.youtubeLinkInput != "" ? getVideoId(this.youtubeLinkInput).id : "dQw4w9WgXcQ";
       }
 
       player.source = {
@@ -127,7 +118,6 @@ export default {
   mounted() {
     player = new Plyr("#player", {
       settings: ["captions", "quality", "speed", "loop"],
-      
     });
     socket.on("clientJoined", (namelist) => {
       this.namelist = namelist;
@@ -167,27 +157,7 @@ export default {
 </script>
 
 <style scoped>
-.person {
-  display: block;
-  margin: 10px;
-}
-#videoPreview {
-  position: absolute;
-  bottom: 100%;
-  width: auto;
-}
-#videoPreview:hover {
-  cursor: pointer;
-}
-#videoPreview:hover h2 {
-  color: white !important;
-}
-
-.input {
-  height: 30px;
-}
-
-.mw100 {
-  min-width: 100%;
+#player {
+  flex: 1;
 }
 </style>

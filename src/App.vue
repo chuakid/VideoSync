@@ -1,14 +1,15 @@
 <template>
-  <server-picker v-if="!connected" :rooms="rooms" @joined="joined"/>
-  <video-player :link="link" v-if="connected"/>
+  <main class="bg-gray-800">
+    <server-picker v-if="!connected" :rooms="rooms" @joined="joined" />
+    <video-player :link="link" v-if="connected" />
+  </main>
 </template>
 
 <script>
 import ServerPicker from "./components/ServerPicker.vue";
 import VideoPlayer from "./components/VideoPlayer.vue";
-import socket from "./socket.js"
-import "plyr/dist/plyr.css"
-
+import socket from "./socket.js";
+import "plyr/dist/plyr.css";
 
 export default {
   components: {
@@ -19,14 +20,14 @@ export default {
     return {
       rooms: [],
       connected: false,
-      link: ""
+      link: "",
     };
   },
   methods: {
-    joined(link){
-      this.connected=true;
+    joined(link) {
+      this.connected = true;
       this.link = link;
-    }
+    },
   },
   mounted() {
     socket.on("rooms", (roomsEmitted) => {
@@ -37,7 +38,6 @@ export default {
     });
   },
 };
-
 </script>
 
 <style>

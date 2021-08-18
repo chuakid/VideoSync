@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import './assets/bulmaswatch.min.css';
-import './assets/index.css';
+import "tailwindcss/tailwind.css"
 
 createApp(App).mount('body')

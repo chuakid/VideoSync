@@ -1,33 +1,20 @@
 <template>
-  <div class="level picker">
-    <div class="level-item">
-      <div id="join">
-        <p class="control field is-fullwidth">
-          <input
-            class="input"
-            placeholder="Name"
-            id="name"
-            v-model="username"
-          />
-        </p>
-        <p class="control field is-fullwidth select">
-          <select class="input" id="roomSelect" v-model="roomId">
-            <option disabled>Room</option>
-            <option v-for="room in rooms" :key="room">
-              {{ room }}
-            </option>
-          </select>
-        </p>
-        <p class="control">
-          <button
-            class="button is-outlined is-primary is-fullwidth"
-            @click="joinRoom"
-            id="joinRoom"
-          >
-            Join
-          </button>
-        </p>
-      </div>
+  <div class="flex justify-center items-center min-h-screen">
+    <div id="join" class="bg-gray-700 rounded p-5">
+      <p class="mb-3">
+        <input class="bg-gray-600 p-2 text-white w-full hover:bg-gray-500 transition" placeholder="Name" id="name" v-model="username" />
+      </p>
+      <p class="mb-3">
+        <select class="bg-gray-600 py-2 pl-2 text-white w-full hover:bg-gray-500 transition cursor-pointer" id="roomSelect" v-model="roomId">
+          <option disabled>Room</option>
+          <option v-for="room in rooms" :key="room">
+            {{ room }}
+          </option>
+        </select>
+      </p>
+      <p class="block">
+        <button class="py-2 px-2 border-2 border-red-400 text-red-400 hover:bg-red-400 hover:text-white transition w-full" @click="joinRoom" id="joinRoom">Join</button>
+      </p>
     </div>
   </div>
 </template>
@@ -44,10 +31,10 @@ export default {
   props: {
     rooms: Array,
   },
-  mounted(){
-    socket.on("roomJoinStatus", (link)=>{
+  mounted() {
+    socket.on("roomJoinStatus", (link) => {
       this.$emit("joined", link);
-    })
+    });
   },
   methods: {
     joinRoom() {
@@ -67,6 +54,6 @@ export default {
 
 <style>
 .picker {
-  min-height: 100vh
+  min-height: 100vh;
 }
 </style>
