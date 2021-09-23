@@ -28,4 +28,4 @@ Used for to create websocket connections both client-side and server-side
 - Express: HTTP Server
 - Vite: Development server and a module bundler. Incredibly fast and supports hot-module reloading.
 - Vue: Frontend framework
-- Bulma: Frontend styling framework
+- TailwindCSS: Frontend styling framework
